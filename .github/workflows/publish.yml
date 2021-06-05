@@ -8,7 +8,7 @@ on:
     branches: 
       - master
   schedule:
-    - cron: '10 * * * *'
+    - cron: '0 * * * *'
 
 jobs:
   publish:
@@ -39,7 +39,6 @@ jobs:
       env:
         JEKYLL_ENV: aliyun
         JEKYLL_GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        PAGES_REPO_NWO: Xzonn/test
     - name: Deploy to GitHub Pages
       run: |
         pushd _site/ &>/dev/null
