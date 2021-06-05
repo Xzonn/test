@@ -20,13 +20,29 @@ jobs:
     - uses: actions/setup-node@v1
       with:
         node-version: 12
-    - name: Bundler
+    - name: Npm
       run: |
-        bundle install --path=vendor/bundle --jobs=4 --retry=3
-    - name: Bootstrap
-      run: |
-        npm install bootstrap@3
+        npm install
     - name: Less
       run: |
-        npm install less
-        lessc -x css/_base.less base.css
+        ./node_modules/less/bin/lessc -x assets/css/_base.less assets/css/base.css
+    - name: Prepare for Build
+      run: |
+        git clone --depth=1 --branch=gh-pages --single-branch --no-checkout \
+          "https://${GITHUB_ACTOR}:${{ secrets.GITHUB_TOKEN }}@github.com/${GITHUB_REPOSITORY}.git" \
+          _site
+    - name: Build Site
+      run: |
+        bundle exec jekyll build --trace --profile --lsi
+      env:
+        JEKYLL_ENV: aliyun
+        JEKYLL_GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+    - name: Deploy to GitHub Pages
+      run: |
+        pushd _site/ &>/dev/null
+        : > .nojekyll
+        git add -A
+        git -c user.name=GitHub -c user.email=noreply@github.com commit \
+          -m "From GitHub Actions build ${GITHUB_RUN_NUMBER}"
+        git push
+        popd &>/dev/null

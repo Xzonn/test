@@ -1,0 +1,13 @@
+author: Xzonn
+description: 这是一个测试。
+exclude:
+  - Debug/
+  - node_modules/
+  - vendor/
+  - Gemfile
+  - Gemfile.lock
+  - package.json
+  - package-lock.json
+lsi: true
+theme: minima
+title: 测试
