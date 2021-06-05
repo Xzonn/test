@@ -11,4 +11,5 @@ exclude:
   - package-lock.json
 lsi: true
 name: 测试
+theme: minima
 title: 测试
