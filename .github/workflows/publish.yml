@@ -7,8 +7,6 @@ on:
   pull_request:
     branches: 
       - master
-  schedule:
-    - cron: '0 * * * *'
 
 jobs:
   publish:
@@ -42,7 +40,8 @@ jobs:
     - name: Deploy to GitHub Pages
       run: |
         pushd _site/ &>/dev/null
-        : > .nojekyll
+        : >.nojekyll
+        echo "pg4.xzonn.top" >CNAME
         git add -A
         git -c user.name=GitHub -c user.email=noreply@github.com commit \
           -m "From GitHub Actions build ${GITHUB_RUN_NUMBER}"
